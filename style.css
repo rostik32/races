@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.hide {
+  display: none;
+}
+
+.start {
+  width: 200px;
+  background-color: #7bf064;
+  text-align: center;
+  padding: 20px 50px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.car {
+  width: 50px;
+  height: 100px;
+  background: url("image/player.png") no-repeat center / contain;
+}
