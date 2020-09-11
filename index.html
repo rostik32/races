@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -20,9 +19,54 @@
     <div class="score"></div>
 
     <div class="game">
-        <div class="start">Start</div>
+        <div class="start">
+            <img src="image/logo.png" class="logo">
+
+            <form class="form">
+                <h2 class="form__title">
+                    Настройки
+                </h2>
+
+                <p class="form__text">
+                    Сложность:
+                </p>
+
+                <input id="easy" type="radio" class="form__complexity" name="complexity" value="10" hidden checked>
+                <label class="form__complexity-text" for="easy">Легко</label>
+
+                <input id="medium" type="radio" class="form__complexity" name="complexity" value="15" hidden>
+                <label class="form__complexity-text" for="medium">Нормально</label>
+
+                <input id="hard" type="radio" class="form__complexity" name="complexity" value="20" hidden>
+                <label class="form__complexity-text" for="hard">Сложно</label>
+
+                <p class="form__text">
+                    Громкость:
+                </p>
+                <input class="form__volume" type="range" min="0" max="100" step="1" value="50">
+
+                <p class="form__text">
+                    Ваше имя:
+                </p>
+                <input class="form__username" type="text" name="username">
+
+                <button type="submit" class="form__button">СТАРТ</button>
+            </form>
+            <div class="blur"></div>
+
+            <div class="top-players">
+                <h2 class="top-players__title">
+                    ТОП 5 ИГРОКОВ:
+                </h2>
+
+                <ol class="top-players__list">
+                    <li class="top-players__item">Username</li>
+                </ol>
+            </div>
+        </div>
 
         <div class="gameArea"></div>
+
     </div>
 
     <script src="js.js"></script>
