@@ -9,6 +9,7 @@ const form = document.querySelector('.form');
 const startButton = document.querySelector('.form__button');
 const gameVolume = document.querySelector('.form__volume');
 const username = document.querySelector('.form__username');
+const recordsContainer = document.querySelector('.top-players');
 
 const audio = document.createElement('audio');
 const crashSound = document.createElement('audio');
@@ -60,20 +61,53 @@ form.addEventListener('input', () => {
     };
     setting.volume = gameVolume.value / 100;
     setting.username = username.value;
-    console.log(setting.username);
+
 });
 
+printRecords();
+function printRecords() {
+
+    let recordsList = document.createElement('ol');
+    recordsList.classList.add('top-players__list');
+
+
+    let request = new XMLHttpRequest();
+    request.open('POST', 'printRecords.php');
+    request.responseType = 'json';
+    request.onload = function () {
+        let records = request.response;
+        records = records.sort((a, b) => b.score - a.score);
+
+        for (let i = 0; i < 10; i++) {
+            let recordItem = document.createElement('li');
+            let recordCount = document.createElement('span');
+
+            recordItem.classList.add('top-players__item');
+            recordCount.classList.add('top-players__score');
+
+            recordItem.textContent = records[i].username + ' — ';
+            recordCount.textContent = records[i].score;
+
+            recordItem.append(recordCount);
+            recordsList.append(recordItem);
+        }
+
+        recordsContainer.append(recordsList);
+    };
+    request.send();
+
+}
 
 function sendData() {
     let user = {
         username: `${setting.username}`,
-        score: `${setting.score}`
+        score: `${Math.floor(setting.score / 100)}`
     };
 
     let json = JSON.stringify(user);
     const request = new XMLHttpRequest();
+    request.open('POST', 'sendData.php');
     request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    request.open('POST', 'score.php');
     request.send(json);
 }
 
@@ -132,6 +166,7 @@ function playGame() {
 
         moveRoad();
         moveEnemy();
+
         if (keys.ArrowLeft && setting.x > 0) {
             setting.x -= setting.speed / 3;
         }
@@ -152,6 +187,13 @@ function playGame() {
         car.style.top = setting.y + 'px';
 
         requestAnimationFrame(playGame);
+    } else {
+        setTimeout(() => {
+            score.textContent = 'Вы набрали ' + Math.floor(setting.score / 100) + ' очков';
+            score.style.fontSize = '20px';
+            start.classList.remove('hide');
+            printRecords();
+        }, 1000);
     }
 
 }
@@ -201,16 +243,18 @@ function moveEnemy() {
             carRect.right >= enemyRect.left &&
             carRect.left <= enemyRect.right &&
             carRect.bottom >= enemyRect.top) {
+
+            setting.start = false;
+            sendData();
+
+            let topPlayersList = document.querySelector('.top-players__list');
+            topPlayersList.remove();
+            topPlayersList = null;
+
             audio.pause();
             crashSound.volume = setting.volume;
             crashSound.play();
-            setting.start = false;
-            setTimeout(() => {
-                score.textContent = 'Вы набрали ' + Math.floor(setting.score / 100) + ' очков';
-                score.style.fontSize = '20px';
-                start.classList.remove('hide');
-            }, 1000);
-            sendData();
+
         }
 
         enemy.y += setting.speed / 2;

@@ -135,7 +135,7 @@ body {
 .top-players {
   position: absolute;
   top: 300px;
-  left: 30px;
+  left: 50px;
   z-index: 2000;
 }
 
@@ -154,3 +154,24 @@ body {
   font-weight: bold;
 }
 
+.top-players__score {
+  color: #ff5e00;
+}
+
+.control {
+  position: absolute;
+  top: 300px;
+  right: 50px;
+  z-index: 2000;
+}
+
+.control__title {
+  color: #e7f064;
+}
+
+.control__bg {
+  margin: 0 auto;
+  width: 150px;
+  height: 100px;
+  background: url("image/control.png") no-repeat center / contain;
+}
